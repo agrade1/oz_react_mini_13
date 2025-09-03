@@ -1,9 +1,9 @@
-import MovieList from '@/components/movie/MovieList';
+import MovieSection from '@/components/movie/MovieSection';
 
 export default function Main() {
   return (
     <div className="cont-wrap py-16">
-      <MovieList />
+      <MovieSection />
     </div>
   );
 }

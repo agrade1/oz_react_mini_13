@@ -16,3 +16,6 @@
 .cont-wrap {
   @apply m-auto max-w-[1440px] px-4;
 }
+.is-dragging {
+  @apply pointer-events-none;
+}

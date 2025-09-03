@@ -1,6 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import Header from './components/layout/Header';
 import type { MenuItem } from './types/headerTypes';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const menus: MenuItem[] = [
   { id: 1, to: '/', label: 'movies' },
