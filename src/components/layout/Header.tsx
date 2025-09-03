@@ -1,5 +1,5 @@
+import type { MenuItem } from '@/types/headerTypes';
 import { NavLink } from 'react-router-dom';
-import type { MenuItem } from '../../types/headerTypes';
 
 type HeaderProps = { menus: MenuItem[] };
 export default function Header({ menus }: HeaderProps) {
