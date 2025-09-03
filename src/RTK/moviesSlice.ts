@@ -1,8 +1,8 @@
-import type { MovieData } from '@/types/movieDataTypes';
+import type { MovieListData } from '@/types/movieDataTypes';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchMovies = createAsyncThunk<
-  MovieData[], // 성공 시 payload 타입
+  MovieListData[], // 성공 시 payload 타입
   void, // thunk에 전달되는 인자 타입
   { rejectValue: string } // 실패 시 반환할 값 타입
 >('movie/fetch', async (_, { rejectWithValue }) => {
@@ -11,14 +11,14 @@ export const fetchMovies = createAsyncThunk<
     if (!res.ok) {
       throw new Error('네트워크 오류 발생');
     }
-    return (await res.json()) as MovieData[];
+    return (await res.json()) as MovieListData[];
   } catch (error) {
     return rejectWithValue((error as Error).message || '영화 데이터를 불러오지 못했습니다.');
   }
 });
 
 interface MoviesState {
-  list: MovieData[];
+  list: MovieListData[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }

@@ -1,8 +1,8 @@
-import type { MovieData } from '@/types/movieDataTypes';
+import type { MovieListData } from '@/types/movieDataTypes';
 import { NavLink } from 'react-router-dom';
 import { TMDB_IMAGE_BASE_URL } from '@/constants/tmdb';
 
-type MovieCardProps = { movie: MovieData };
+type MovieCardProps = { movie: MovieListData };
 
 export default function MovieCard({ movie }: MovieCardProps) {
   return (

@@ -10,7 +10,7 @@ function App() {
   return (
     <div>
       <Header menus={menus} />
-      <main className="cont-wrap">
+      <main className="relative">
         <Outlet />
       </main>
     </div>
