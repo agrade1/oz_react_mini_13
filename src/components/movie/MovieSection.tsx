@@ -1,29 +1,26 @@
-import type { AppDispatch, RootState } from '@/RTK/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchMovies } from '@/RTK/moviesSlice';
 import { SwitchCase } from '@toss/react';
 import MovieList from './MovieList';
 import MovieCarousel from './MovieCarousel';
+import { useFetchQuery } from '@/hooks/useFetchQuery';
+import type { MovieListData } from '@/types/movieDataTypes';
 
 export default function MovieSection() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { list, status, error } = useSelector((state: RootState) => state.movies);
-
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
+  const {
+    data: movies,
+    status,
+    error,
+  } = useFetchQuery<MovieListData[]>(['movies'], 'http://localhost:4000/results', 1000 * 60);
 
   return (
     <SwitchCase
       value={status}
       caseBy={{
-        loading: <div>로딩중</div>,
-        failed: <div>{error}</div>,
-        succeeded: (
+        pending: <div>로딩중...</div>,
+        error: <div>{error ? (error as Error).message : '오류 발생'}</div>,
+        success: (
           <section className="space-y-12">
-            <MovieList movies={list} />
-            <MovieCarousel movies={list} />
+            <MovieList movies={movies ?? []} />
+            <MovieCarousel movies={movies ?? []} />
           </section>
         ),
       }}
