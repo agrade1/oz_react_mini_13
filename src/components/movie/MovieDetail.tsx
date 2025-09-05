@@ -1,16 +1,13 @@
 import { TMDB_IMAGE_BASE_URL } from '@/constants/tmdb';
-import { useFetchQuery } from '@/hooks/useFetchQuery';
+import { useTmdbQuery } from '@/hooks/useTmdbQuery';
 import type { MovieDetailData } from '@/types/movieDataTypes';
 import { useParams } from 'react-router-dom';
 
 export default function MovieDetail() {
   const { id } = useParams<{ id: string }>();
-  const { data: movie } = useFetchQuery<MovieDetailData>(
-    ['movieDetail', id!],
-    `http://localhost:4001/movieDetail/1011985`, // 나중에 뒤에 아이디를 params로 변경해야함
-    1000 * 10,
-    { enabled: !!id },
-  );
+  const { data: movie } = useTmdbQuery<MovieDetailData>(['movies', 'detail', id!], `/movie/${id}`, {
+    page: 1,
+  });
 
   if (!movie) return <p>로딩중...</p>;
 

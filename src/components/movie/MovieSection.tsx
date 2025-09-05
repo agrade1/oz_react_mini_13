@@ -1,15 +1,21 @@
 import { SwitchCase } from '@toss/react';
 import MovieList from './MovieList';
 import MovieCarousel from './MovieCarousel';
-import { useFetchQuery } from '@/hooks/useFetchQuery';
-import type { MovieListData } from '@/types/movieDataTypes';
+import type { MovieApiResponse, MovieListData } from '@/types/movieDataTypes';
+import { useTmdbQuery } from '@/hooks/useTmdbQuery';
 
 export default function MovieSection() {
-  const {
-    data: movies,
-    status,
-    error,
-  } = useFetchQuery<MovieListData[]>(['movies'], 'http://localhost:4000/results', 1000 * 60);
+  const { data, status, error } = useTmdbQuery<MovieApiResponse<MovieListData>>(
+    ['movies', 'discover'],
+    '/discover/movie',
+    {
+      page: 1,
+      include_adult: false,
+      include_video: false,
+      certification_country: 'US',
+      'certification.lte': 'PG-13',
+    },
+  );
 
   return (
     <SwitchCase
@@ -19,8 +25,8 @@ export default function MovieSection() {
         error: <div>{error ? (error as Error).message : '오류 발생'}</div>,
         success: (
           <section className="space-y-12">
-            <MovieList movies={movies ?? []} />
-            <MovieCarousel movies={movies ?? []} />
+            <MovieList movies={data?.results ?? []} />
+            <MovieCarousel movies={data?.results ?? []} />
           </section>
         ),
       }}

@@ -1,14 +1,22 @@
 export type MovieListData = {
   id: number;
   title: string;
+  overview: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  release_date: string;
   vote_average: number;
-  poster_path: string;
+  adult: boolean;
 };
 
 export type MovieDetailData = MovieListData & {
-  backdrop_path: string;
-  overview: string;
-  release_date: string;
   runtime?: number;
   genres?: { id: number; name: string }[];
+};
+
+export type MovieApiResponse<T> = {
+  page: number;
+  results: T[];
+  total_pages: number;
+  total_results: number;
 };
