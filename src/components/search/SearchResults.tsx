@@ -5,7 +5,7 @@ import { MovieList } from '../movie';
 type SearchResultsProps = { query: string };
 export default function SearchResults({ query }: SearchResultsProps) {
   const { data } = useTmdbQuery<MovieApiResponse<MovieListData>>(
-    ['movies', 'search'],
+    ['movies', 'search', query],
     '/search/movie',
     {
       page: 1,
