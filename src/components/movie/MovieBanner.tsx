@@ -36,7 +36,7 @@ export default function MovieBanner() {
         {movies.map((movie) => (
           <div key={movie.id}>
             <div
-              className="h-dvh bg-cover"
+              className="h-dvh bg-cover bg-center"
               style={{
                 backgroundImage: `url(${TMDB_IMAGE_ORIGINAL_URL}${movie.backdrop_path})`,
               }}

@@ -28,9 +28,9 @@ export default function Header({ menus }: HeaderProps) {
             <NavLink to="/">CineScore</NavLink>
           </h1>
           <ul className="flex-between gap-6 text-lg font-medium">
-            {menus.map(({ id, to, label }) => (
+            {menus.map(({ id, to }) => (
               <NavLink key={id} to={to}>
-                <li className="transition-colors hover:text-red-500">{label}</li>
+                {/* <li className="transition-colors hover:text-red-500">{label}</li> */}
               </NavLink>
             ))}
           </ul>
