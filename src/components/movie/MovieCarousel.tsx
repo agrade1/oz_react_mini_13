@@ -1,7 +1,8 @@
-import type { MovieListData } from '@/types/movieDataTypes';
+import type { MovieApiResponse, MovieListData } from '@/types/movieDataTypes';
 import { useEffect } from 'react';
 import Slider from 'react-slick';
 import MovieCard from './MovieCard';
+import { useTmdbQuery } from '@/hooks/useTmdbQuery';
 
 function blockWhileDragging(isDragging: boolean) {
   const slides = document.getElementsByClassName('slick-slide');
@@ -13,8 +14,17 @@ function blockWhileDragging(isDragging: boolean) {
     }
   }
 }
-type MovieCarouselProps = { movies: MovieListData[] };
-export default function MovieCarousel({ movies }: MovieCarouselProps) {
+type MovieCarouselProps = {
+  category: 'popular' | 'now_playing' | 'upcoming' | 'top_rated';
+  title: string;
+};
+export default function MovieCarousel({ category, title }: MovieCarouselProps) {
+  const { data } = useTmdbQuery<MovieApiResponse<MovieListData>>(
+    ['movies', category],
+    `/movie/${category}`,
+    { page: 1 },
+  );
+
   useEffect(() => {
     let isMouseDown = false;
 
@@ -62,12 +72,17 @@ export default function MovieCarousel({ movies }: MovieCarouselProps) {
   };
 
   return (
-    <Slider {...settings}>
-      {movies.map((movie) => (
-        <div key={movie.id} className="h-96 px-2">
-          <MovieCard movie={movie} />
-        </div>
-      ))}
-    </Slider>
+    <>
+      <h3 className="my-3 text-3xl font-extrabold tracking-tight text-black duration-300 dark:text-white">
+        {title}
+      </h3>
+      <Slider {...settings}>
+        {data?.results.map((movie) => (
+          <div key={movie.id} className="h-96 px-2">
+            <MovieCard movie={movie} />
+          </div>
+        ))}
+      </Slider>
+    </>
   );
 }

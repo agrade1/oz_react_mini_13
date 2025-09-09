@@ -12,7 +12,7 @@ function App() {
   return (
     <div>
       <Header menus={menus} />
-      <main className="relative">
+      <main className="relative min-h-dvh bg-white pt-24 transition-all dark:bg-black">
         <Outlet />
       </main>
     </div>

@@ -1,6 +1,6 @@
 import type { MovieListData } from '@/types/movieDataTypes';
 import { NavLink } from 'react-router-dom';
-import { TMDB_IMAGE_BASE_URL } from '@/constants/tmdb';
+import { TMDB_IMAGE_500_URL } from '@/constants/tmdb';
 
 type MovieCardProps = {
   movie: MovieListData;
@@ -27,7 +27,7 @@ export default function MovieCard({
     >
       <NavLink to={`/movie/${movie.id}`} className="h-full" onClick={handleClick}>
         <img
-          src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
+          src={`${TMDB_IMAGE_500_URL}${movie.poster_path}`}
           alt={movie.title}
           className="h-full w-full object-cover"
           draggable={false} // 이미지 자체 드래그 방지
