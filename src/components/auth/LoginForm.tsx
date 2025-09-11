@@ -1,9 +1,12 @@
 import { useForm } from 'react-hook-form';
-import Button from '../ui/Button';
+import { supabase } from '@/lib/supabase';
+import { Button } from '../ui';
+import { useDispatch } from 'react-redux';
+import { showAlert } from '@/RTK/alertSlice';
 
 type LoginFormProps = {
   onSignupClick: () => void;
-  onSubmit?: (data: LoginInputs) => void; // API 연동용
+  onClose: () => void;
 };
 
 type LoginInputs = {
@@ -11,18 +14,24 @@ type LoginInputs = {
   password: string;
 };
 
-export default function LoginForm({ onSignupClick, onSubmit }: LoginFormProps) {
+export default function LoginForm({ onSignupClick, onClose }: LoginFormProps) {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginInputs>({
-    mode: 'onBlur',
-  });
+  } = useForm<LoginInputs>({ mode: 'onBlur' });
 
-  const submitHandler = (data: LoginInputs) => {
-    if (onSubmit) onSubmit(data);
-    console.log('로그인 시도:', data);
+  const submitHandler = async (data: LoginInputs) => {
+    const { error } = await supabase.auth.signInWithPassword(data);
+
+    if (error) {
+      dispatch(showAlert({ type: 'error', message: '로그인 실패: 잘못된 이메일 또는 비밀번호' }));
+      return;
+    }
+
+    dispatch(showAlert({ type: 'success', message: '로그인 성공!' }));
+    onClose();
   };
 
   return (

@@ -3,16 +3,12 @@ import { NavLink } from 'react-router-dom';
 import SearchInput from '../ui/SearchInput';
 import ThemeButton from '../ui/ThemeButton';
 import { useEffect, useState } from 'react';
-import AuthModal from '../auth/AuthModal';
-import Button from '../ui/Button';
+import AuthButton from '../auth/AuthButton';
 
 type HeaderProps = { menus: MenuItem[] };
-type AuthView = 'login' | 'signup';
 
 export default function Header({ menus }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [authOpen, setAuthOpen] = useState(false);
-  const [authView, setAuthView] = useState<AuthView>('login');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,19 +41,9 @@ export default function Header({ menus }: HeaderProps) {
         <div className="flex-center gap-6 text-lg">
           <SearchInput debounce />
           <ThemeButton />
-          <Button
-            onClick={() => {
-              setAuthView('login');
-              setAuthOpen(true);
-            }}
-          >
-            로그인
-          </Button>
+          <AuthButton />
         </div>
       </nav>
-      {authOpen && (
-        <AuthModal view={authView} onClose={() => setAuthOpen(false)} onChangeView={setAuthView} />
-      )}
     </header>
   );
 }

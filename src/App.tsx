@@ -3,6 +3,7 @@ import Header from './components/layout/Header';
 import type { MenuItem } from './types/headerTypes';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import AlertRenderer from './components/common/AlertRenderer';
 
 const menus: MenuItem[] = [
   { id: 1, to: '/', label: 'movies' },
@@ -15,6 +16,7 @@ function App() {
       <main className="relative min-h-dvh bg-white pt-24 transition-all dark:bg-black">
         <Outlet />
       </main>
+      <AlertRenderer />
     </div>
   );
 }

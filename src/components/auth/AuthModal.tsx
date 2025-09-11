@@ -18,7 +18,7 @@ export default function AuthModal({ view, onClose, onChangeView }: AuthModalProp
       {/* 모달 본체 */}
       <div className="relative z-10 w-[400px] rounded bg-black/80 text-white shadow-lg">
         {view === 'login' ? (
-          <LoginForm onSignupClick={() => onChangeView('signup')} />
+          <LoginForm onSignupClick={() => onChangeView('signup')} onClose={onClose} />
         ) : (
           <SignupForm onLoginClick={() => onChangeView('login')} />
         )}

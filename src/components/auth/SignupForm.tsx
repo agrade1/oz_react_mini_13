@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form';
-import Button from '../ui/Button';
+import { Button } from '../ui';
+import { supabase } from '@/lib/supabase';
+import { useDispatch } from 'react-redux';
+import { showAlert } from '@/RTK/alertSlice';
 
 type SignupFormProps = {
   onLoginClick: () => void;
-  onSubmit?: (data: SignupInputs) => void;
 };
 
 type SignupInputs = {
@@ -13,19 +15,30 @@ type SignupInputs = {
   confirmPassword: string;
 };
 
-export default function SignupForm({ onLoginClick, onSubmit }: SignupFormProps) {
+export default function SignupForm({ onLoginClick }: SignupFormProps) {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<SignupInputs>({
-    mode: 'onBlur',
-  });
+  } = useForm<SignupInputs>({ mode: 'onBlur' });
 
-  const submitHandler = (data: SignupInputs) => {
-    if (onSubmit) onSubmit(data);
-    console.log('회원가입 시도:', data);
+  const submitHandler = async (data: SignupInputs) => {
+    const { email, password, name } = data;
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { name } },
+    });
+
+    if (error) {
+      dispatch(showAlert({ type: 'error', message: '회원가입 실패: 이미 등록된 이메일입니다.' }));
+      return;
+    }
+
+    dispatch(showAlert({ type: 'success', message: '회원가입 성공! 로그인해주세요.' }));
+    onLoginClick(); // ✅ 회원가입 성공 후 로그인 폼으로 전환
   };
 
   return (
