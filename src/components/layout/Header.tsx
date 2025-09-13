@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import SearchInput from '../ui/SearchInput';
 import ThemeButton from '../ui/ThemeButton';
 import { useEffect, useState } from 'react';
+import AuthButton from '../auth/AuthButton';
 
 type HeaderProps = { menus: MenuItem[] };
 
@@ -40,7 +41,7 @@ export default function Header({ menus }: HeaderProps) {
         <div className="flex-center gap-6 text-lg">
           <SearchInput debounce />
           <ThemeButton />
-          <NavLink to="/">로그인</NavLink>
+          <AuthButton />
         </div>
       </nav>
     </header>
