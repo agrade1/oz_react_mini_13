@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { useSuspenseQuery, type UseSuspenseQueryResult } from '@tanstack/react-query';
 import { TMDB_BASE_URL, TMDB_TOKEN } from '@/constants/tmdb';
 
 export function useTmdbQuery<T>(
@@ -6,15 +6,15 @@ export function useTmdbQuery<T>(
   endpoint: string,
   params: Record<string, string | number | boolean> = {},
   staleTime: number = 1000 * 60,
-): UseQueryResult<T> {
+): UseSuspenseQueryResult<T, Error> {
   const searchParams = new URLSearchParams({
     language: 'ko-KR',
-    ...Object.fromEntries(Object.entries(params).map(([key, value]) => [key, String(value)])),
+    ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])),
   });
 
   const url = `${TMDB_BASE_URL}${endpoint}?${searchParams}`;
 
-  return useQuery<T>({
+  return useSuspenseQuery<T, Error>({
     queryKey: key,
     queryFn: async () => {
       const res = await fetch(url, {
@@ -27,7 +27,5 @@ export function useTmdbQuery<T>(
       return res.json();
     },
     staleTime,
-    cacheTime: 0,
-    suspense: true,
   });
 }
