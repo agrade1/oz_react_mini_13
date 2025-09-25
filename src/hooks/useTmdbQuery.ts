@@ -27,5 +27,7 @@ export function useTmdbQuery<T>(
       return res.json();
     },
     staleTime,
+    cacheTime: 0,
+    suspense: true,
   });
 }
